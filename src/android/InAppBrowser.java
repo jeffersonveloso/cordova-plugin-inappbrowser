@@ -845,6 +845,10 @@ public class InAppBrowser extends CordovaPlugin {
             @SuppressLint("NewApi")
             public void run() {
 
+                if(Build.VERSION.SDK_INT >=24 && (cordova.getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || cordova.getActivity().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
+                    cordova.getActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1);
+                }
+
                 // CB-6702 InAppBrowser hangs when opening more than one instance
                 if (dialog != null) {
                     dialog.dismiss();
